@@ -5,11 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-commerce</title>
     <link rel="stylesheet" href="./src/output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
 
 </head>
 <body>
 
-    <h1 class="text-blue-800"> mabas</h1>
+
+<nav class="bg-blue-600 p-4 text-white flex justify-between">
+<h1 class="text-xl font-bold">Shop Demo</h1>
+
+<div class="space-x-5">
+<a href="index.html">Home</a>
+<a href="customers.html">Customers</a>
+<a href="admin.html">Admin</a>
+</div>
+
+</nav>
+
+<div class="max-w-7xl mx-auto p-6">
+
+<input
+id="search"
+placeholder="Search..."
+class="border p-2 rounded w-full mb-4">
+
+<select
+id="category"
+class="border p-2 rounded mb-4"></select>
+
+<div
+id="products"
+class="grid grid-cols-2 md:grid-cols-5 gap-4"></div>
+
+<div class="flex justify-center mt-8 gap-2">
+
+<button id="prev"
+class="bg-gray-300 px-4 py-2 rounded">
+Prev
+</button>
+
+<span id="page"></span>
+
+<button id="next"
+class="bg-blue-500 text-white px-4 py-2 rounded">
+Next
+</button>
+
+</div>
+
+</div>
+
+<div id="modal"></div>
+
+<script src="js/api.js"></script>
+<script src="js/home.js"></script>
+
+
     
     <script src="app.js"></script>
 </body>
