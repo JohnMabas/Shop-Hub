@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="./src/output.css">
+
+<!-- <script src="https://cdn.tailwindcss.com"></script> -->
+
+</head>
+
+<body class="bg-gray-100">
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="bg-blue-600 shadow">
+
+<div class="max-w-7xl mx-auto px-5">
+
+<div class="flex flex-col md:flex-row justify-between items-center py-4">
+
+<h1 class="text-2xl text-white font-bold">
+Admin Dashboard
+</h1>
+
+<div class="flex gap-6 mt-4 md:mt-0">
+
+<a href="index.html" class="text-white hover:text-yellow-300">
+Home
+</a>
+
+<a href="customers.html" class="text-white hover:text-yellow-300">
+Customers
+</a>
+
+<a href="admin.html" class="text-yellow-300 font-semibold">
+Admin
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</nav>
+
+<!-- ================= PAGE ================= -->
+
+<div class="max-w-7xl mx-auto p-6">
+
+<h2 class="text-3xl font-bold mb-6">
+Product Management
+</h2>
+
+<!-- ================= SUMMARY ================= -->
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+<div class="bg-white rounded-xl shadow p-5">
+
+<h3 class="text-gray-500">
+Total Products
+</h3>
+
+<p id="totalProducts"
+class="text-3xl font-bold mt-2">
+0
+</p>
+
+</div>
+
+<div class="bg-white rounded-xl shadow p-5">
+
+<h3 class="text-gray-500">
+Products Added
+</h3>
+
+<p id="addedCount"
+class="text-3xl font-bold mt-2 text-green-600">
+0
+</p>
+
+</div>
+
+<div class="bg-white rounded-xl shadow p-5">
+
+<h3 class="text-gray-500">
+Updated
+</h3>
+
+<p id="updatedCount"
+class="text-3xl font-bold mt-2 text-blue-600">
+0
+</p>
+
+</div>
+
+<div class="bg-white rounded-xl shadow p-5">
+
+<h3 class="text-gray-500">
+Deleted
+</h3>
+
+<p id="deletedCount"
+class="text-3xl font-bold mt-2 text-red-600">
+0
+</p>
+
+</div>
+
+</div>
+
+<!-- ================= MAIN GRID ================= -->
+
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+
+<!-- ========================================================= -->
+<!-- ADD PRODUCT -->
+<!-- ========================================================= -->
+
+<div class="bg-white rounded-xl shadow p-6 h-fit">
+
+<h3 class="text-xl font-bold mb-5">
+Add Product
+</h3>
+
+<form id="productForm" class="space-y-4">
+
+<input
+id="title"
+type="text"
+placeholder="Product Title"
+class="border rounded-lg w-full p-3">
+
+<input
+id="price"
+type="number"
+placeholder="Price"
+class="border rounded-lg w-full p-3">
+
+<input
+id="brand"
+type="text"
+placeholder="Brand"
+class="border rounded-lg w-full p-3">
+
+<input
+id="category"
+type="text"
+placeholder="Category"
+class="border rounded-lg w-full p-3">
+
+<textarea
+id="description"
+rows="4"
+placeholder="Description"
+class="border rounded-lg w-full p-3"></textarea>
+
+<input
+id="image"
+type="text"
+placeholder="Thumbnail URL"
+class="border rounded-lg w-full p-3">
+
+<button
+type="submit"
+class="bg-blue-600 hover:bg-blue-700 text-white w-full rounded-lg py-3">
+
+Add Product
+
+</button>
+
+</form>
+
+</div>
+
+<!-- ========================================================= -->
+<!-- PRODUCT TABLE -->
+<!-- ========================================================= -->
+
+<div class="xl:col-span-2">
+
+<div class="bg-white rounded-xl shadow">
+
+<div class="flex flex-col md:flex-row justify-between items-center p-5 border-b">
+
+<h3 class="text-xl font-bold">
+Products
+</h3>
+
+<input
+id="adminSearch"
+placeholder="Search..."
+class="border rounded-lg p-2 mt-4 md:mt-0">
+
+</div>
+
+<!-- DESKTOP TABLE -->
+
+<div class="hidden lg:block overflow-x-auto">
+
+<table class="w-full">
+
+<thead class="bg-gray-200">
+
+<tr>
+
+<th class="p-3 text-left">
+ID
+</th>
+
+<th class="p-3 text-left">
+Title
+</th>
+
+<th class="p-3 text-left">
+Price
+</th>
+
+<th class="p-3 text-left">
+Actions
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="productTable">
+
+<!-- JS -->
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- MOBILE CARDS -->
+
+<div
+id="mobileProducts"
+class="block lg:hidden p-4 space-y-4">
+
+<!-- JS -->
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= ACTIVITY LOG ================= -->
+
+<div class="bg-white rounded-xl shadow mt-10">
+
+<div class="border-b p-5">
+
+<h3 class="text-xl font-bold">
+Activity Log
+</h3>
+
+</div>
+
+<div
+id="activityLog"
+class="max-h-96 overflow-y-auto">
+
+<div class="p-4 text-gray-500">
+
+No activity yet.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= EDIT MODAL ================= -->
+
+<div
+id="editModal"
+class="fixed inset-0 bg-black/60 hidden justify-center items-center p-4">
+
+<div
+class="bg-white rounded-xl w-full max-w-xl p-6 relative">
+
+<button
+id="closeEditModal"
+class="absolute right-4 top-3 text-2xl">
+
+✕
+
+</button>
+
+<h3 class="text-2xl font-bold mb-5">
+
+Edit Product
+
+</h3>
+
+<form id="editForm" class="space-y-4">
+
+<input
+id="editTitle"
+class="border rounded-lg w-full p-3">
+
+<input
+id="editPrice"
+type="number"
+class="border rounded-lg w-full p-3">
+
+<input
+id="editBrand"
+class="border rounded-lg w-full p-3">
+
+<input
+id="editCategory"
+class="border rounded-lg w-full p-3">
+
+<textarea
+id="editDescription"
+rows="4"
+class="border rounded-lg w-full p-3"></textarea>
+
+<button
+class="bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-3 w-full">
+
+Save Changes
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<!-- ================= LOADING ================= -->
+
+<div
+id="loading"
+class="hidden fixed inset-0 bg-black/30 justify-center items-center">
+
+<div class="bg-white rounded-xl p-6">
+
+<p class="font-semibold">
+Loading...
+</p>
+
+</div>
+
+</div>
+
+<!-- ================= TOAST ================= -->
+
+<div
+id="toast"
+class="fixed bottom-5 right-5 hidden bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg">
+
+Success
+
+</div>
+
+<script src="js/admin.js"></script>
+
+</body>
+</html>
