@@ -5,61 +5,141 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-commerce</title>
     <link rel="stylesheet" href="./src/output.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-
 
 </head>
-<body>
+<body class="bg-gray-100">
 
+<!-- ================= NAVBAR ================= -->
+<nav class="bg-blue-600 shadow">
+    <div class="max-w-7xl mx-auto px-5">
+        <div class="flex flex-col md:flex-row justify-between items-center py-4">
 
-<nav class="bg-blue-600 p-4 text-white flex justify-between">
-<h1 class="text-xl font-bold">Shop Demo</h1>
+            <h1 class="text-white text-2xl font-bold">
+                Shop Demo
+            </h1>
 
-<div class="space-x-5">
-<a href="index.html">Home</a>
-<a href="customers.html">Customers</a>
-<a href="admin.html">Admin</a>
-</div>
+            <div class="flex gap-6 mt-4 md:mt-0">
+                <a href="index.html" class="text-white hover:text-yellow-300">Home</a>
+                <a href="customers.html" class="text-white hover:text-yellow-300">Customers</a>
+                <a href="admin.html" class="text-white hover:text-yellow-300">Admin</a>
+            </div>
 
+        </div>
+    </div>
 </nav>
 
-<div class="max-w-7xl mx-auto p-6">
+<!-- ================= HERO ================= -->
 
-<input
-id="search"
-placeholder="Search..."
-class="border p-2 rounded w-full mb-4">
+<section class="bg-white shadow">
+    <div class="max-w-7xl mx-auto py-10 px-5 text-center">
 
-<select
-id="category"
-class="border p-2 rounded mb-4"></select>
+        <h2 class="text-4xl font-bold">
+            E-Commerce Store
+        </h2>
+
+        <p class="text-gray-600 mt-3">
+            Browse products, search, filter by category and view details.
+        </p>
+
+    </div>
+</section>
+
+<!-- ================= SEARCH ================= -->
+
+<div class="max-w-7xl mx-auto px-5 py-6">
+
+    <div class="flex flex-col md:flex-row gap-4">
+
+        <input
+            id="searchInput"
+            type="text"
+            placeholder="Search products..."
+            class="border rounded-lg p-3 w-full">
+
+        <select
+            id="categorySelect"
+            class="border rounded-lg p-3 w-full md:w-64">
+
+            <option value="">All Categories</option>
+
+        </select>
+
+    </div>
+
+</div>
+
+<!-- ================= PRODUCTS ================= -->
+
+<div class="max-w-7xl mx-auto px-5">
+
+    <div
+        id="productGrid"
+        class="grid
+        grid-cols-1
+        sm:grid-cols-2
+        lg:grid-cols-3
+        xl:grid-cols-4
+        gap-6">
+
+    </div>
+
+</div>
+
+<!-- ================= PAGINATION ================= -->
+
+<div class="max-w-7xl mx-auto py-8">
+
+    <div class="flex justify-center items-center gap-4 flex-wrap">
+
+        <button
+            id="prevBtn"
+            class="bg-gray-300 px-5 py-2 rounded hover:bg-gray-400">
+            Previous
+        </button>
+
+        <span
+            id="pageNumber"
+            class="font-bold text-lg">
+            1
+        </span>
+
+        <button
+            id="nextBtn"
+            class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">
+            Next
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ================= MODAL ================= -->
 
 <div
-id="products"
-class="grid grid-cols-2 md:grid-cols-5 gap-4"></div>
+    id="modal"
+    class="fixed inset-0 bg-black/50 hidden justify-center items-center p-4">
 
-<div class="flex justify-center mt-8 gap-2">
+    <div
+        class="bg-white rounded-xl w-full max-w-lg p-6 relative">
 
-<button id="prev"
-class="bg-gray-300 px-4 py-2 rounded">
-Prev
-</button>
+        <button
+            id="closeModal"
+            class="absolute right-4 top-4 text-2xl">
+            ✕
+        </button>
 
-<span id="page"></span>
+        <div id="modalContent"></div>
 
-<button id="next"
-class="bg-blue-500 text-white px-4 py-2 rounded">
-Next
-</button>
-
-</div>
+    </div>
 
 </div>
 
-<div id="modal"></div>
+<script>
 
-<script src="js/api.js"></script>
-<script src="js/home.js"></script>
+
+</script>
+
+
 
 
     
