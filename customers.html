@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Customers Dashboard</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-gray-100">
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="bg-blue-600 shadow">
+
+<div class="max-w-7xl mx-auto px-5">
+
+<div class="flex flex-col md:flex-row justify-between items-center py-4">
+
+<h1 class="text-2xl text-white font-bold">
+Customer Dashboard
+</h1>
+
+<div class="flex gap-6 mt-4 md:mt-0">
+
+<a href="index.html" class="text-white hover:text-yellow-300">
+Home
+</a>
+
+<a href="customers.html" class="text-yellow-300 font-semibold">
+Customers
+</a>
+
+<a href="admin.html" class="text-white hover:text-yellow-300">
+Admin
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</nav>
+
+<!-- ================= HEADER ================= -->
+
+<section class="bg-white shadow">
+
+<div class="max-w-7xl mx-auto py-10 px-5 text-center">
+
+<h2 class="text-4xl font-bold">
+Customer Dashboard
+</h2>
+
+<p class="text-gray-600 mt-3">
+
+Simple dashboard showing product statistics and featured products.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ================= SUMMARY ================= -->
+
+<div class="max-w-7xl mx-auto p-6">
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+<div class="bg-white rounded-xl shadow p-6">
+
+<p class="text-gray-500">
+
+Total Products
+
+</p>
+
+<h2
+id="totalProducts"
+class="text-4xl font-bold mt-3">
+
+0
+
+</h2>
+
+</div>
+
+<div class="bg-white rounded-xl shadow p-6">
+
+<p class="text-gray-500">
+
+Categories
+
+</p>
+
+<h2
+id="totalCategories"
+class="text-4xl font-bold mt-3">
+
+0
+
+</h2>
+
+</div>
+
+<div class="bg-white rounded-xl shadow p-6">
+
+<p class="text-gray-500">
+
+Average Price
+
+</p>
+
+<h2
+id="averagePrice"
+class="text-4xl font-bold mt-3">
+
+$0
+
+</h2>
+
+</div>
+
+<div class="bg-white rounded-xl shadow p-6">
+
+<p class="text-gray-500">
+
+Highest Rating
+
+</p>
+
+<h2
+id="highestRating"
+class="text-4xl font-bold mt-3">
+
+0
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= FEATURED ================= -->
+
+<div class="max-w-7xl mx-auto px-6 pb-10">
+
+<div class="flex justify-between items-center mb-6">
+
+<h2 class="text-2xl font-bold">
+
+Featured Products
+
+</h2>
+
+</div>
+
+<div
+id="featuredProducts"
+class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+</div>
+
+</div>
+
+<!-- ================= LATEST PRODUCTS ================= -->
+
+<div class="max-w-7xl mx-auto px-6 pb-10">
+
+<h2 class="text-2xl font-bold mb-6">
+
+Latest Products
+
+</h2>
+
+<div
+id="latestProducts"
+class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+</div>
+
+</div>
+
+<!-- ================= TOP RATED ================= -->
+
+<div class="max-w-7xl mx-auto px-6 pb-10">
+
+<h2 class="text-2xl font-bold mb-6">
+
+Top Rated Products
+
+</h2>
+
+<div
+id="topRatedProducts"
+class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+</div>
+
+</div>
+
+<!-- ================= LOADING ================= -->
+
+<div
+id="loading"
+class="fixed inset-0 bg-black/40 hidden justify-center items-center">
+
+<div class="bg-white rounded-xl p-6">
+
+Loading...
+
+</div>
+
+</div>
+
+<script src="./customers.js"></script>
+
+</body>
+
+</html>
