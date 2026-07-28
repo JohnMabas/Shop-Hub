@@ -846,3 +846,319 @@ async function saveChanges(e) {
     hideLoading();
 
 }
+
+
+// ==============================================
+// ADMIN.JS - PART 3B
+// PATCH + DELETE + Final Helpers
+// ==============================================
+
+// ------------------------------------
+// PATCH (Quick Edit)
+// Increases price by $10
+// ------------------------------------
+
+async function quickEdit(id) {
+
+    const index = shadowProducts.findIndex(p => p.id == id);
+
+    if (index === -1) return;
+
+    // Backup
+
+    const backup = JSON.parse(JSON.stringify(shadowProducts));
+
+    // Optimistic Update
+
+    shadowProducts[index].price += 10;
+
+    filteredProducts = [...shadowProducts];
+
+    updated++;
+
+    renderProducts();
+
+    updateCounters();
+
+    addActivity(
+        `Quick Updated : ${shadowProducts[index].title}`
+    );
+
+    showToast("Price Updated");
+
+    showLoading();
+
+    try {
+
+        const response = await fetch(API + "/" + id, {
+
+            method: "PATCH",
+
+            headers: {
+
+                "Content-Type": "application/json"
+
+            },
+
+            body: JSON.stringify({
+
+                price: shadowProducts[index].price
+
+            })
+
+        });
+
+        if (!response.ok) {
+
+            throw new Error("Patch Failed");
+
+        }
+
+        const data = await response.json();
+
+        console.log(data);
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+        // Rollback
+
+        shadowProducts = backup;
+
+        filteredProducts = [...shadowProducts];
+
+        updated--;
+
+        renderProducts();
+
+        updateCounters();
+
+        addActivity("Rollback : PATCH Failed");
+
+        showToast("Patch Failed");
+
+    }
+
+    hideLoading();
+
+}
+
+// ------------------------------------
+// DELETE PRODUCT
+// ------------------------------------
+
+async function removeProduct(id) {
+
+    const confirmDelete = confirm(
+        "Delete this product?"
+    );
+
+    if (!confirmDelete) return;
+
+    // Backup
+
+    const backup = JSON.parse(JSON.stringify(shadowProducts));
+
+    const deletedProduct = shadowProducts.find(
+        p => p.id == id
+    );
+
+    // Optimistic Delete
+
+    shadowProducts = shadowProducts.filter(
+        p => p.id != id
+    );
+
+    filteredProducts = [...shadowProducts];
+
+    deleted++;
+
+    renderProducts();
+
+    updateCounters();
+
+    addActivity(
+        `Deleted : ${deletedProduct.title}`
+    );
+
+    showToast("Product Deleted");
+
+    showLoading();
+
+    try {
+
+        const response = await fetch(API + "/" + id, {
+
+            method: "DELETE"
+
+        });
+
+        if (!response.ok) {
+
+            throw new Error("Delete Failed");
+
+        }
+
+        const data = await response.json();
+
+        console.log(data);
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+        // Rollback
+
+        shadowProducts = backup;
+
+        filteredProducts = [...shadowProducts];
+
+        deleted--;
+
+        renderProducts();
+
+        updateCounters();
+
+        addActivity("Rollback : DELETE Failed");
+
+        showToast("Delete Failed");
+
+    }
+
+    hideLoading();
+
+}
+
+// ------------------------------------
+// Reset Dashboard
+// ------------------------------------
+
+async function resetDashboard() {
+
+    const ok = confirm(
+        "Reload products from API?"
+    );
+
+    if (!ok) return;
+
+    showLoading();
+
+    try {
+
+        const response = await fetch(API + "?limit=100");
+
+        const data = await response.json();
+
+        shadowProducts = [...data.products];
+
+        filteredProducts = [...shadowProducts];
+
+        added = 0;
+
+        updated = 0;
+
+        deleted = 0;
+
+        activityLog = [];
+
+        renderProducts();
+
+        renderActivity();
+
+        updateCounters();
+
+        showToast("Dashboard Reset");
+
+    }
+
+    catch {
+
+        alert("Unable to reload products.");
+
+    }
+
+    hideLoading();
+
+}
+
+// ------------------------------------
+// Export Activity Log
+// ------------------------------------
+
+function exportActivityLog() {
+
+    let text = "";
+
+    activityLog.forEach(item => {
+
+        text += `${item.time} - ${item.text}\n`;
+
+    });
+
+    const blob = new Blob([text], {
+
+        type: "text/plain"
+
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+
+    a.href = url;
+
+    a.download = "activity-log.txt";
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+}
+
+// ------------------------------------
+// Keyboard Shortcut
+// Ctrl + R = Reload Dashboard
+// ------------------------------------
+
+document.addEventListener("keydown", e => {
+
+    if (e.ctrlKey && e.key === "r") {
+
+        e.preventDefault();
+
+        resetDashboard();
+
+    }
+
+});
+
+// ------------------------------------
+// Close Edit Modal with ESC
+// ------------------------------------
+
+document.addEventListener("keydown", e => {
+
+    if (e.key === "Escape") {
+
+        editModal.classList.add("hidden");
+
+        editModal.classList.remove("flex");
+
+    }
+
+});
+
+// ------------------------------------
+// Initial Render
+// ------------------------------------
+
+updateCounters();
+
+renderActivity();
+
+loadProducts();
