@@ -1,11 +1,6 @@
-
 // home........
 
-const API="https://dummyjson.com/products";
-
-let currentPage=1;
-const limit=10;
-let totalProducts=0;
+const API = "https://dummyjson.com/products";
 
 const grid = document.getElementById("productGrid");
 const category = document.getElementById("categorySelect");
@@ -15,49 +10,41 @@ const modal = document.getElementById("modal");
 const modalContent = document.getElementById("modalContent");
 
 // Load Categories
-async function loadCategories(){
+async function loadCategories() {
+  const res = await fetch(API + "/categories");
+  const data = await res.json();
 
-const res=await fetch(API+"/categories");
-const data=await res.json();
-
-data.forEach(cat=>{
-
-category.innerHTML+=`
+  data.forEach((cat) => {
+    category.innerHTML += `
 <option value="${cat.slug || cat.name || cat}">
 ${cat.name || cat}
 </option>
 `;
-
-});
-
+  });
 }
 
 // Load Products
-async function loadProducts(){
+async function loadProducts() {
+  const skip = (currentPage - 1) * limit;
 
-const skip=(currentPage-1)*limit;
+  const res = await fetch(`${API}?limit=${limit}&skip=${skip}`);
 
-const res=await fetch(`${API}?limit=${limit}&skip=${skip}`);
+  const data = await res.json();
 
-const data=await res.json();
+  totalProducts = data.total;
 
-totalProducts=data.total;
+  displayProducts(data.products);
 
-displayProducts(data.products);
-
-page.innerHTML=`Page ${currentPage} of ${Math.ceil(totalProducts/limit)}`;
-
+  page.innerHTML = `Page ${currentPage} of ${Math.ceil(totalProducts / limit)}`;
 }
 
 // Display Products
 
-function displayProducts(products){
+function displayProducts(products) {
+  grid.innerHTML = "";
 
-grid.innerHTML="";
-
-products.forEach(product=>{
-
-grid.innerHTML+=`
+  products.forEach((product) => {
+    grid.innerHTML += `
 
 <div class="bg-white rounded-xl shadow hover:shadow-lg duration-300">
 
@@ -92,23 +79,20 @@ View Details
 </div>
 
 `;
-
-});
-
+  });
 }
 
 // Product Details
 
-async function viewProduct(id){
+async function viewProduct(id) {
+  const res = await fetch(API + "/" + id);
 
-const res=await fetch(API+"/"+id);
+  const p = await res.json();
 
-const p=await res.json();
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
 
-modal.classList.remove("hidden");
-modal.classList.add("flex");
-
-modalContent.innerHTML=`
+  modalContent.innerHTML = `
 
 <img
 src="${p.thumbnail}"
@@ -127,90 +111,75 @@ $${p.price}
 </p>
 
 <p class="mt-2">
-⭐ ${p.rating}
+ ${p.rating}
 </p>
 
 `;
-
 }
 
 // Close Modal
 
-document.getElementById("closeModal").onclick=()=>{
-
-modal.classList.add("hidden");
-modal.classList.remove("flex");
-
-}
+document.getElementById("closeModal").onclick = () => {
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+};
 
 // Pagination
 
-document.getElementById("nextBtn").onclick=()=>{
+let currentPage = 1;
+const limit = 10;
+let totalProducts = 0;
 
-if(currentPage<Math.ceil(totalProducts/limit)){
+document.getElementById("nextBtn").onclick = () => {
+  if (currentPage < Math.ceil(totalProducts / limit)) {
+    currentPage++;
 
-currentPage++;
+    loadProducts();
+  }
+};
 
-loadProducts();
+document.getElementById("prevBtn").onclick = () => {
+  if (currentPage > 1) {
+    currentPage--;
 
-}
-
-}
-
-document.getElementById("prevBtn").onclick=()=>{
-
-if(currentPage>1){
-
-currentPage--;
-
-loadProducts();
-
-}
-
-}
+    loadProducts();
+  }
+};
 
 // Search
 
-search.addEventListener("keyup",async()=>{
+search.addEventListener("keyup", async () => {
+  if (search.value == "") {
+    loadProducts();
 
-if(search.value==""){
+    return;
+  }
 
-loadProducts();
+  const res = await fetch(API + "/search?q=" + search.value);
 
-return;
+  const data = await res.json();
 
-}
+  displayProducts(data.products);
 
-const res=await fetch(API+"/search?q="+search.value);
-
-const data=await res.json();
-
-displayProducts(data.products);
-
-page.innerHTML=`Search Results`;
-
+  page.innerHTML = `Search Results`;
 });
 
 // Filter
 
-category.addEventListener("change",async()=>{
+category.addEventListener("change", async () => {
+  if (category.value == "") {
+    loadProducts();
 
-if(category.value==""){
+    return;
+  }
 
-loadProducts();
+  const res = await fetch(API + "/category/" + category.value);
 
-return;
+  const data = await res.json();
 
-}
+  displayProducts(data.products);
 
-const res=await fetch(API+"/category/"+category.value);
-
-const data=await res.json();
-
-displayProducts(data.products);
-
-page.innerHTML=category.value;
-
+  page.innerHTML = category.value;
 });
 
 loadCategories();
